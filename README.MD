@@ -30,3 +30,41 @@ Si el archivo postcodesgeo.csv contiene filas con valores faltantes en las colum
 # Para usarlo, deberá ejecutar el siguiente comando en la terminal
 
 python main.py
+
+
+**Diagrama de arquitectura**
+
+Este diagrama muestra los dos módulos y cómo interactúan entre sí:
+
+lua
+
+              +-----------------+
+              |                 |
+              |    Modulo 1     |
+              |                 |
+              +-----------------+
+              |  codigo_postal  |
+              +-----------------+
+              |      pandas     |
+              |     requests    |
+              +-----------------+
+                       ^
+                       |
+                       |
+                       |
++------------------+   |   +------------------+
+|                  |   |   |                  |
+|     Modulo 2     |---+---|     Archivo CSV   |
+|                  |       |                  |
++------------------+       +------------------+
+|      pandas      |       |                  |
+|     requests     |       |                  |
+|    sqlite3       |       |                  |
+|       os         |       |                  |
+|   codigo_postal  |       |                  |
++------------------+       +------------------+
+
+El módulo 1 define la función codigo_postal que utiliza la librería requests para realizar solicitudes a una API y obtener información detallada del código postal más cercano a las coordenadas de cada fila. El módulo 2 importa la función codigo_postal desde el módulo 1 y la usa junto con la librería pandas para cargar un archivo CSV en un DataFrame. El módulo 2 también utiliza las librerías sqlite3 y os para interactuar con una base de datos SQLite y el sistema de archivos, respectivamente.
+
+El diagrama muestra que ambos módulos utilizan las librerías pandas y requests, y que el módulo 2 también utiliza las librerías sqlite3 y os. El archivo CSV se utiliza como entrada para el módulo 2 y se procesa para obtener los códigos postales correspondientes a cada fila, los cuales se almacenan en una tabla en la base de datos SQLite.
+
